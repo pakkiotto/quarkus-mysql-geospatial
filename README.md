@@ -43,6 +43,10 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 ./mvnw package -Dnative -Dquarkus.native.container-build=true
 ```
 
+## Create db
+```shell script
+docker run -it -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=myuser -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=geospatial-lab  docker.io/library/mysql:8.0
+```
 You can then execute your native executable with: `./target/lab-quarkus-panache-geospatial-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.

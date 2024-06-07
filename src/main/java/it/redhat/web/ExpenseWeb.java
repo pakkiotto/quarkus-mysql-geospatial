@@ -2,12 +2,19 @@ package it.redhat.web;
 
 import it.redhat.entity.Expense;
 import it.redhat.repository.ExpenseRepository;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 
 import java.util.List;
+import java.util.Random;
 
 @Path("/expenses")
 public class ExpenseWeb {
@@ -22,5 +29,38 @@ public class ExpenseWeb {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Expense> getAllExpenses() {
         return expenseRepository.listAll();
+    }
+
+    @GET
+    @Path("new")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response saveExpense() throws ParseException {
+/*
+        Geometry location = new WKTReader().read("POINT (40.8522 14.2681)");
+
+        //Point location = geometryFactory.createPoint(new Coordinate(40.8522, 14.2681));
+
+        // Creazione dell'entità Expense
+        Expense expense = new Expense();
+        expense.setName(UUID.randomUUID().toString());
+        expense.setPrice(40D);
+        expense.setLocation((Point) location);
+
+        // Salvataggio nel database
+        expenseRepository.persist(expense);
+*/
+        Geometry point = new WKTReader().read("POINT (16.85 25.26)");
+
+
+        Expense exp = new Expense();
+        exp.setName("From Interface");
+        exp.setPrice(new Random().nextDouble());
+        exp.setLocation((Point) point);
+
+        expenseRepository.persist(exp);
+
+
+        return Response.status(Response.Status.CREATED).entity(exp).build();
     }
 }
