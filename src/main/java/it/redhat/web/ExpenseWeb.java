@@ -8,13 +8,16 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Path("/expenses")
 public class ExpenseWeb {
@@ -36,20 +39,21 @@ public class ExpenseWeb {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Response saveExpense() throws ParseException {
-/*
-        Geometry location = new WKTReader().read("POINT (40.8522 14.2681)");
 
-        //Point location = geometryFactory.createPoint(new Coordinate(40.8522, 14.2681));
+        //Geometry location = new WKTReader().read("POINT (40.8522 14.2681)");
+
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Point location = geometryFactory.createPoint(new Coordinate(40.8522, 14.2681));
 
         // Creazione dell'entità Expense
-        Expense expense = new Expense();
-        expense.setName(UUID.randomUUID().toString());
-        expense.setPrice(40D);
-        expense.setLocation((Point) location);
+        Expense exp = new Expense();
+        exp.setName(UUID.randomUUID().toString());
+        exp.setPrice(40D);
+        exp.setLocation((Point) location);
 
         // Salvataggio nel database
-        expenseRepository.persist(expense);
-*/
+        expenseRepository.persist(exp);
+/*
         Geometry point = new WKTReader().read("POINT (16.85 25.26)");
 
 
@@ -59,7 +63,7 @@ public class ExpenseWeb {
         exp.setLocation((Point) point);
 
         expenseRepository.persist(exp);
-
+*/
 
         return Response.status(Response.Status.CREATED).entity(exp).build();
     }

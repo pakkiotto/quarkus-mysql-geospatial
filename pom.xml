@@ -55,7 +55,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-spatial</artifactId>
             <version>6.4.4.Final</version>
-            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>com.graphhopper.external</groupId>
